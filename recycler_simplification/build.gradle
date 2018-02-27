@@ -22,12 +22,12 @@ android {
     }
   }
 
-  task packageSources(type: Jar, dependsOn: 'classes') {
-    from sourceSets.main.java
-    classifier = 'sources'
-  }
-
-  artifacts { archives packageSources }
+//  task packageSources(type: Jar, dependsOn: 'classes') {
+//    from sourceSets.main.java
+//    classifier = 'sources'
+//  }
+//
+//  artifacts { archives packageSources }
 }
 
 dependencies {
