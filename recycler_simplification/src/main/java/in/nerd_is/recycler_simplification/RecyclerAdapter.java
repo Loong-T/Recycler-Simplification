@@ -19,8 +19,7 @@ package in.nerd_is.recycler_simplification;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,9 +29,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @SuppressWarnings("WeakerAccess")
     protected final TypeFactory typeFactory;
-    @SuppressWarnings("unchecked")
-    @NonNull
-    protected List<Object> data = Collections.EMPTY_LIST;
+    @SuppressWarnings("unchecked") @NonNull
+    protected List<Object> data = new ArrayList<>();
 
     @SuppressWarnings("WeakerAccess")
     public RecyclerAdapter(@NonNull TypeFactory typeFactory) {
@@ -49,13 +47,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
         return typeFactory.getType(data.get(position).getClass());
     }
 
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    @NonNull @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return typeFactory.createViewHolder(parent, viewType);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         typeFactory.bindViewHolder(holder, data.get(position));
     }
 

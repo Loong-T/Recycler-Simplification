@@ -45,13 +45,7 @@ public class LoadMoreRecyclerAdapter extends RecyclerAdapter {
         super(typeFactory);
         this.listener = listener;
 
-        typeFactory.add(LoadMore.class, new ViewHolderCreator() {
-            @Override
-            public ViewHolder create(LayoutInflater inflater, ViewGroup parent) {
-                return new LoadMoreHolder(inflater.inflate(
-                        loadMoreLayoutResId, parent, false));
-            }
-        });
+        typeFactory.add(new LoadMoreTypeRule(LoadMore.class, loadMoreLayoutResId));
     }
 
     @Override
@@ -68,7 +62,7 @@ public class LoadMoreRecyclerAdapter extends RecyclerAdapter {
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         int count = getOriginCount();
         if (position == count) {
             if (!isLoading) {
@@ -85,7 +79,7 @@ public class LoadMoreRecyclerAdapter extends RecyclerAdapter {
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         layoutManager = recyclerView.getLayoutManager();
 
         if (layoutManager == null) {
@@ -108,7 +102,7 @@ public class LoadMoreRecyclerAdapter extends RecyclerAdapter {
     }
 
     @Override
-    public void onViewAttachedToWindow(ViewHolder holder) {
+    public void onViewAttachedToWindow(@NonNull ViewHolder holder) {
         if (holder instanceof LoadMoreHolder
                 && layoutManager instanceof StaggeredGridLayoutManager) {
             StaggeredGridLayoutManager.LayoutParams lp =
@@ -154,8 +148,7 @@ public class LoadMoreRecyclerAdapter extends RecyclerAdapter {
         void loadMore(List<?> data);
     }
 
-    private static final class LoadMore {
-    }
+    private static final class LoadMore { }
 
     private static final class LoadMoreHolder extends ViewHolder<LoadMore> {
 
@@ -166,6 +159,21 @@ public class LoadMoreRecyclerAdapter extends RecyclerAdapter {
         @Override
         public void render(@NonNull LoadMore data) {
             // empty
+        }
+    }
+
+    private static final class LoadMoreTypeRule extends TypeRule<LoadMore, LoadMoreHolder> {
+
+        private int resId;
+
+        LoadMoreTypeRule(Class<LoadMore> dataClass, int resId) {
+            super(dataClass);
+            this.resId = resId;
+        }
+
+        @Override public LoadMoreHolder createHolder(@NonNull LayoutInflater inflater,
+                @NonNull ViewGroup parent) {
+            return new LoadMoreHolder(inflater.inflate(resId, parent, false));
         }
     }
 }

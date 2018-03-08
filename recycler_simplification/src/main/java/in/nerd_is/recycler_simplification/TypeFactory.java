@@ -29,19 +29,15 @@ import java.util.List;
 public abstract class TypeFactory {
 
     private final List<Class<?>> classes = new ArrayList<>();
-    private final SparseArray<ViewHolderCreator> creators = new SparseArray<>();
+    private final SparseArray<TypeRule> rules = new SparseArray<>();
 
     protected TypeFactory() {
         addTypeRules();
     }
 
-    protected void add(Class<?> clazz, ViewHolderCreator creator) {
-        boolean added = classes.add(clazz);
-        if (added) {
-            creators.put(classes.size() - 1, creator);
-        } else {
-            throw new IllegalStateException("Something strange happens while adding class to list");
-        }
+    protected void add(TypeRule rule) {
+        classes.add(rule.getDataClass());
+        rules.put(getLastIndex(), rule);
     }
 
     public final int getType(Class<?> clazz) {
@@ -55,12 +51,13 @@ public abstract class TypeFactory {
                 return i;
             }
         }
-        throw new IllegalArgumentException("unknown class: " + clazz.getCanonicalName());
+
+        throw new IllegalArgumentException("Unknown class: " + clazz.getCanonicalName());
     }
 
     public final ViewHolder createViewHolder(ViewGroup parent, int type) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return creators.get(type).create(inflater, parent);
+        TypeRule rule = rules.get(type);
+        return rule.createHolder(LayoutInflater.from(parent.getContext()), parent);
     }
 
     @SuppressWarnings("unchecked")
@@ -69,9 +66,13 @@ public abstract class TypeFactory {
     }
 
     /**
-     * You should call {@link #add(Class, ViewHolderCreator)} to add maps between
+     * You should call {@link #add(TypeRule)} to add maps between
      * class types and view holder types.
      */
     @SuppressWarnings("WeakerAccess")
     protected abstract void addTypeRules();
+
+    private int getLastIndex() {
+        return classes.size() - 1;
+    }
 }
