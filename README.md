@@ -10,6 +10,6 @@ allprojects {
 }
 
 dependencies {
-        implementation 'in.nerd-is:recycler-simplification:0.1.2'
+        implementation 'in.nerd-is:recycler-simplification:0.2.1'
 }
 ```
