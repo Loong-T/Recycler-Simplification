@@ -28,7 +28,7 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
         int totalItemCount = layoutManager.getItemCount();
         int lastVisibleItemPosition = getLastVisibleItemPosition();
 
-        if (lastVisibleItemPosition + visibleThreshold > totalItemCount) {
+        if (lastVisibleItemPosition + visibleThreshold >= (totalItemCount - 1)) {
             loadMoreSubject.loadMore();
         }
     }
