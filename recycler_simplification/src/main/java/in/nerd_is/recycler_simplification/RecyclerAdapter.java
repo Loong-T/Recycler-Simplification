@@ -1,76 +1,96 @@
-/*
- * Copyright 2017 Xuqiang ZHENG
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package in.nerd_is.recycler_simplification;
 
 import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
- * @author Xuqiang ZHENG on 2016/11/23.
+ * @author Xuqiang ZHENG on 18/4/19.
  */
-public class RecyclerAdapter extends RecyclerView.Adapter<ViewHolder> {
+public class RecyclerAdapter extends AbstractAdapter {
 
-    @SuppressWarnings("WeakerAccess")
-    protected final TypeFactory typeFactory;
-    @SuppressWarnings("unchecked") @NonNull
-    protected List<Object> data = new ArrayList<>();
+    protected List<Object> data = Collections.emptyList();
 
-    @SuppressWarnings("WeakerAccess")
     public RecyclerAdapter(@NonNull TypeFactory typeFactory) {
-        this.typeFactory = typeFactory;
+        super(typeFactory);
     }
 
     @Override
-    public int getItemCount() {
-        return data.size();
-}
-
-    @Override
-    public int getItemViewType(int position) {
-        return typeFactory.getType(data.get(position).getClass());
-    }
-
-    @NonNull @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return typeFactory.createViewHolder(parent, viewType);
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        typeFactory.bindViewHolder(holder, data.get(position));
-    }
-
-    @NonNull
     public List<?> getData() {
         return data;
     }
 
-    public final void swap(@NonNull List<?> list) {
-        //noinspection unchecked
+    @SuppressWarnings("unchecked")
+    public void swapData(List<?> list) {
         this.data = (List<Object>) list;
         notifyDataSetChanged();
     }
 
-    public void append(@NonNull List<?> list) {
-        int startPos = data.size();
-        data.addAll(list);
-        notifyItemRangeInserted(startPos, list.size());
+    public void insert(int position, Object item) {
+        if (isDataEmpty()) {
+            data = new ArrayList<>();
+            data.add(item);
+            notifyItemInserted(position);
+        } else {
+            data.add(position, item);
+            notifyItemInserted(position);
+        }
+    }
+
+    public void insert(int position, List<?> list) {
+        if (isDataEmpty()) {
+            data = new ArrayList<>(list);
+            notifyItemRangeInserted(0, list.size());
+        } else {
+            data.addAll(position, list);
+            notifyItemRangeInserted(position, list.size());
+        }
+    }
+
+    public void append(Object item) {
+        insert(data.size(), item);
+    }
+
+    public void append(List<?> list) {
+        insert(data.size(), list);
+    }
+
+    public void appendToHead(Object item) {
+        insert(0, item);
+    }
+
+    public void appendToHead(List<?> list) {
+        insert(0, list);
+    }
+
+    public void update(int position, Object item) {
+        data.set(position, item);
+        notifyItemChanged(position);
+    }
+
+    public void update(int position, List<?> list) {
+        for (int i = 0; i < list.size(); i++) {
+            data.set(position + i, list.get(i));
+        }
+        notifyItemRangeChanged(position, list.size());
+    }
+
+    public void remove(int position) {
+        data.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public void remove(int position, int itemCount) {
+        ArrayList<Object> list = new ArrayList<>(data.size() - itemCount);
+        list.addAll(data.subList(0, position));
+        list.addAll(data.subList(position + itemCount, data.size()));
+        data = list;
+        notifyItemRangeRemoved(position, itemCount);
+    }
+
+    private boolean isDataEmpty() {
+        return Collections.emptyList().equals(data);
     }
 }
