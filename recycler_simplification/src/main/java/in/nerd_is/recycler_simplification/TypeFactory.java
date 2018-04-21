@@ -40,7 +40,7 @@ public abstract class TypeFactory {
         rules.put(getLastIndex(), rule);
     }
 
-    public final int getType(Class<?> clazz) {
+    public int getType(Class<?> clazz) {
         int idx = classes.indexOf(clazz);
         if (idx >= 0) {
             return idx;
@@ -55,14 +55,18 @@ public abstract class TypeFactory {
         throw new IllegalArgumentException("Unknown class: " + clazz.getCanonicalName());
     }
 
-    public final ViewHolder createViewHolder(ViewGroup parent, int type) {
+    public ViewHolder createViewHolder(ViewGroup parent, int type) {
         TypeRule rule = rules.get(type);
         return rule.createHolder(LayoutInflater.from(parent.getContext()), parent);
     }
 
     @SuppressWarnings("unchecked")
-    public final void bindViewHolder(ViewHolder viewHolder, Object item) {
+    public void bindViewHolder(ViewHolder viewHolder, Object item) {
         viewHolder.render(item);
+    }
+
+    public void bindViewHolder(ViewHolder viewHolder, Object item, List<Object> payloads) {
+        bindViewHolder(viewHolder, item);
     }
 
     /**

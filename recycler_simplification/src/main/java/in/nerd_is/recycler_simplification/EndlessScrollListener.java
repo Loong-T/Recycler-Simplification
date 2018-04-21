@@ -33,6 +33,10 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
         }
     }
 
+    public void attachTo(RecyclerView recyclerView) {
+        recyclerView.addOnScrollListener(this);
+    }
+
     public int getVisibleThreshold() {
         return visibleThreshold;
     }

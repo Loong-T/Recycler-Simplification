@@ -25,17 +25,15 @@ import java.util.List;
 /**
  * @author Xuqiang ZHENG on 2016/11/23.
  */
-public abstract class AbstractAdapter extends RecyclerView.Adapter<ViewHolder> {
+public abstract class AbstractAdapter
+        extends RecyclerView.Adapter<ViewHolder> implements HasListData {
 
-    @SuppressWarnings("WeakerAccess")
-    protected final TypeFactory typeFactory;
+    private AdapterDelegate delegate;
 
     @SuppressWarnings("WeakerAccess")
     public AbstractAdapter(@NonNull TypeFactory typeFactory) {
-        this.typeFactory = typeFactory;
+        delegate = new AdapterDelegate(typeFactory, this);
     }
-
-    abstract List<?> getData();
 
     @Override
     public int getItemCount() {
@@ -44,16 +42,22 @@ public abstract class AbstractAdapter extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        return typeFactory.getType(getData().get(position).getClass());
+        return delegate.getItemViewType(position);
     }
 
     @NonNull @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return typeFactory.createViewHolder(parent, viewType);
+        return delegate.onCreateViewHolder(parent, viewType);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        typeFactory.bindViewHolder(holder, getData().get(position));
+        delegate.onBindViewHolder(holder, position);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position,
+                                 @NonNull List<Object> payloads) {
+        delegate.onBindViewHolder(holder, position, payloads);
     }
 }
