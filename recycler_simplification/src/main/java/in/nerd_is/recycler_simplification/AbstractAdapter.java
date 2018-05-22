@@ -31,8 +31,8 @@ public abstract class AbstractAdapter
     private AdapterDelegate delegate;
 
     @SuppressWarnings("WeakerAccess")
-    public AbstractAdapter(@NonNull TypeFactory typeFactory) {
-        delegate = new AdapterDelegate(typeFactory, this);
+    public AbstractAdapter(@NonNull RuleSet ruleSet) {
+        delegate = new AdapterDelegate(ruleSet, this);
     }
 
     @Override

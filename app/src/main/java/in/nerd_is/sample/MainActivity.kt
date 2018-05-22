@@ -1,7 +1,7 @@
 package `in`.nerd_is.sample
 
 import `in`.nerd_is.recycler_simplification.RecyclerAdapter
-import `in`.nerd_is.recycler_simplification.TypeFactory
+import `in`.nerd_is.recycler_simplification.RuleSet
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -11,7 +11,7 @@ import java.util.Random
 class MainActivity : AppCompatActivity() {
 
   private val random = Random()
-  private val adapter = RecyclerAdapter(SimpleTypeFactory())
+  private lateinit var adapter: RecyclerAdapter
   private var count = 0
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     btnAddItem.setOnClickListener { adapter.append(generateData()) }
     btnAddToHead.setOnClickListener { adapter.appendToHead(generateData()) }
 
+    adapter = RecyclerAdapter(RuleSet.Builder().add(SimpleTypeRule()).build())
     recyclerView.layoutManager = LinearLayoutManager(this)
     recyclerView.adapter = adapter
     adapter.swapData(generateDataList())
@@ -35,11 +36,4 @@ class MainActivity : AppCompatActivity() {
         .map { SimpleData("Simple data $it") }
         .toList()
   }
-
-  private class SimpleTypeFactory : TypeFactory() {
-    override fun addTypeRules() {
-      add(SimpleTypeRule())
-    }
-  }
-
 }

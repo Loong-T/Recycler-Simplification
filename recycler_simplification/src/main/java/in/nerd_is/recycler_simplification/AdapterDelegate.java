@@ -26,29 +26,29 @@ import java.util.List;
  */
 public class AdapterDelegate {
 
-    private TypeFactory typeFactory;
+    private RuleSet ruleSet;
     private HasListData data;
 
-    public AdapterDelegate(TypeFactory typeFactory, HasListData data) {
-        this.typeFactory = typeFactory;
+    public AdapterDelegate(RuleSet ruleSet, HasListData data) {
+        this.ruleSet = ruleSet;
         this.data = data;
     }
 
     public int getItemViewType(int position) {
-        return typeFactory.getType(data.getData().get(position).getClass());
+        return ruleSet.getType(data.getData().get(position).getClass());
     }
 
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return typeFactory.createViewHolder(parent, viewType);
+        return ruleSet.createViewHolder(parent, viewType);
     }
 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        typeFactory.bindViewHolder(holder, data.getData().get(position));
+        ruleSet.bindViewHolder(holder, data.getData().get(position));
     }
 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position,
                                  @NonNull List<Object> payloads) {
-        typeFactory.bindViewHolder(holder, data.getData().get(position), payloads);
+        ruleSet.bindViewHolder(holder, data.getData().get(position), payloads);
     }
 }

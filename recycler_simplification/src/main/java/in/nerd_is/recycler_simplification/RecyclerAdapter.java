@@ -13,8 +13,8 @@ public class RecyclerAdapter extends AbstractAdapter {
 
     protected List<Object> data = Collections.emptyList();
 
-    public RecyclerAdapter(@NonNull TypeFactory typeFactory) {
-        super(typeFactory);
+    public RecyclerAdapter(@NonNull RuleSet ruleSet) {
+        super(ruleSet);
     }
 
     @Override

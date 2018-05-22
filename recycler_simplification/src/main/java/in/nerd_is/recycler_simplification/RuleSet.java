@@ -26,13 +26,29 @@ import java.util.List;
 /**
  * @author Xuqiang ZHENG on 2017/2/25.
  */
-public abstract class TypeFactory {
+public class RuleSet {
+
+    public static class Builder {
+
+        private RuleSet ruleSet = new RuleSet();
+
+        public Builder() {
+        }
+
+        public Builder add(TypeRule rule) {
+            ruleSet.add(rule);
+            return this;
+        }
+
+        public RuleSet build() {
+            return ruleSet;
+        }
+    }
 
     private final List<Class<?>> classes = new ArrayList<>();
     private final SparseArray<TypeRule> rules = new SparseArray<>();
 
-    protected TypeFactory() {
-        addTypeRules();
+    private RuleSet() {
     }
 
     protected void add(TypeRule rule) {
@@ -68,13 +84,6 @@ public abstract class TypeFactory {
     public void bindViewHolder(ViewHolder viewHolder, Object item, List<Object> payloads) {
         bindViewHolder(viewHolder, item);
     }
-
-    /**
-     * You should call {@link #add(TypeRule)} to add maps between
-     * class types and view holder types.
-     */
-    @SuppressWarnings("WeakerAccess")
-    protected abstract void addTypeRules();
 
     private int getLastIndex() {
         return classes.size() - 1;
