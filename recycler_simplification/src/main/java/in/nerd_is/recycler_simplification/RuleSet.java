@@ -85,6 +85,13 @@ public class RuleSet {
         bindViewHolder(viewHolder, item);
     }
 
+    void setAdapter(AbstractAdapter adapter) {
+        for (int i = 0; i < rules.size(); ++i) {
+            TypeRule rule = rules.get(rules.keyAt(i));
+            rule.adapter = adapter;
+        }
+    }
+
     private int getLastIndex() {
         return classes.size() - 1;
     }

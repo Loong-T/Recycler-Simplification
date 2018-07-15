@@ -29,9 +29,10 @@ public class AdapterDelegate {
     private RuleSet ruleSet;
     private HasListData data;
 
-    public AdapterDelegate(RuleSet ruleSet, HasListData data) {
+    public AdapterDelegate(RuleSet ruleSet, HasListData data, AbstractAdapter adapter) {
         this.ruleSet = ruleSet;
         this.data = data;
+        this.ruleSet.setAdapter(adapter);
     }
 
     public int getItemViewType(int position) {

@@ -32,7 +32,7 @@ public abstract class AbstractAdapter
 
     @SuppressWarnings("WeakerAccess")
     public AbstractAdapter(@NonNull RuleSet ruleSet) {
-        delegate = new AdapterDelegate(ruleSet, this);
+        delegate = new AdapterDelegate(ruleSet, this, this);
     }
 
     @Override
