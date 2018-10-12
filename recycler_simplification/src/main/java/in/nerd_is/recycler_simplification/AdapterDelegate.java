@@ -16,7 +16,7 @@
 
 package in.nerd_is.recycler_simplification;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 
 import java.util.List;

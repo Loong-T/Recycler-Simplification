@@ -3,8 +3,8 @@ package `in`.nerd_is.sample
 import `in`.nerd_is.recycler_simplification.RecyclerAdapter
 import `in`.nerd_is.recycler_simplification.RuleSet
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.main_activity.*
 import java.util.Random
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     btnAddToHead.setOnClickListener { adapter.appendToHead(generateData()) }
 
     adapter = RecyclerAdapter(RuleSet.Builder().add(SimpleTypeRule()).build())
-    recyclerView.layoutManager = LinearLayoutManager(this)
+    recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this)
     recyclerView.adapter = adapter
     adapter.swapData(generateDataList())
   }
