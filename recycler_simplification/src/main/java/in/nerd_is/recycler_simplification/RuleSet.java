@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 /**
  * @author Xuqiang ZHENG on 2017/2/25.
  */
@@ -85,9 +87,10 @@ public class RuleSet {
         bindViewHolder(viewHolder, item);
     }
 
-    void setAdapter(AbstractAdapter adapter) {
+    void setup(HasListData data, RecyclerView.Adapter adapter) {
         for (int i = 0; i < rules.size(); ++i) {
             TypeRule rule = rules.get(rules.keyAt(i));
+            rule.hasListData = data;
             rule.adapter = adapter;
         }
     }

@@ -16,10 +16,12 @@
 
 package in.nerd_is.recycler_simplification;
 
-import androidx.annotation.NonNull;
 import android.view.ViewGroup;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * @author Xuqiang ZHENG on 18/4/21.
@@ -29,10 +31,10 @@ public class AdapterDelegate {
     private RuleSet ruleSet;
     private HasListData data;
 
-    public AdapterDelegate(RuleSet ruleSet, HasListData data, AbstractAdapter adapter) {
+    public AdapterDelegate(RuleSet ruleSet, HasListData data, RecyclerView.Adapter adapter) {
         this.ruleSet = ruleSet;
         this.data = data;
-        this.ruleSet.setAdapter(adapter);
+        this.ruleSet.setup(data, adapter);
     }
 
     public int getItemViewType(int position) {

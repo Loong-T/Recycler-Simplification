@@ -15,7 +15,7 @@ class SimpleTypeRule : TypeRule<SimpleData, SimpleHolder>(SimpleData::class.java
   SimpleHolder.OnDeleteClickListener {
 
   override fun onDeleteClick(pos: Int) {
-    adapter.data.removeAt(pos)
+    hasListData.data.removeAt(pos)
     adapter.notifyItemRemoved(pos)
   }
 

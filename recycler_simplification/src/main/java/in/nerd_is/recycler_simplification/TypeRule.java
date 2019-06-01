@@ -1,6 +1,7 @@
 package in.nerd_is.recycler_simplification;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -10,7 +11,8 @@ import android.view.ViewGroup;
  */
 public abstract class TypeRule<T, VH extends ViewHolder> {
 
-    protected AbstractAdapter adapter;
+    protected RecyclerView.Adapter adapter;
+    protected HasListData hasListData;
 
     private Class<T> dataClass;
 
